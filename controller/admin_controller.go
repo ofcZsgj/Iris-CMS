@@ -2,6 +2,7 @@ package controller
 
 import (
 	"Iris-CMS/service"
+	"encoding/json"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/mvc"
 	"github.com/kataras/iris/v12/sessions"
@@ -71,7 +72,9 @@ func (ac *AdminController) PostLogin(ctx iris.Context) mvc.Result {
 
 	//管理员存在 设置session
 	//userByte := admin.Encoder()
-	ac.Session.Set(ADMIN, admin.AdminId)
+	//ac.Session.Set(ADMIN, admin.AdminId)
+	userByte, _ := json.Marshal(admin) //将Admin结构实体使用json格式存储到session中
+	ac.Session.Set(ADMIN, userByte)
 
 	return mvc.Response{
 		Object: map[string]interface{}{
